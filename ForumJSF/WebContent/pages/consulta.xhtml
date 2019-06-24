@@ -66,14 +66,14 @@
 				<div class="col">
 					<h:inputText value="#{consultaController.buscarApartirData}"
 						class="form-control">
-						<f:convertDateTime type="localDate" pattern="dd/MM/yyyy"/>
+						<f:convertDateTime type="localDate" pattern="dd/MM/yyyy" />
 					</h:inputText>
 				</div>
 				<div class="col">
 					<h:commandButton class="btn btn-secondary" value="BUSCAR"
 						actionListener="#{consultaController.pesquisar}">
-						
-						<f:ajax execute="@form" render="busca"/>
+
+						<f:ajax execute="@form" render="busca" />
 					</h:commandButton>
 				</div>
 			</div>
@@ -85,7 +85,7 @@
 				value="#{consultaController.publicacoes}" var="elemento">
 				<h:column>
 					<f:facet name="header">Tipo</f:facet>
-					<h:outputLabel value="Publicação"/>
+					<h:outputLabel value="Publicação" />
 				</h:column>
 				<h:column>
 					<f:facet name="header">Descricao</f:facet>
@@ -96,6 +96,18 @@
 					<h:outputText value="#{elemento.quandoPublicado}">
 						<f:convertDateTime type="localDate" pattern="dd/MM/yyyy" />
 					</h:outputText>
+				</h:column>
+				<h:column>
+					<h:commandLink actionListener="#{consultaController.edit(elemento)}"
+						style="border: 0px; background-color: transparent;">
+						<h:graphicImage width="15%" library="image" name="edit.png" />
+					</h:commandLink>
+
+					<h:commandLink actionListener="#{consultaController.delete(elemento)}"
+						value=" " style="border: 0px; background-color: transparent;">
+						<h:graphicImage width="15%" library="image" name="delete.png" />
+						<f:ajax execute="@this" render="busca" />
+					</h:commandLink>
 				</h:column>
 			</h:dataTable>
 		</h:form>

@@ -45,6 +45,7 @@ public class HomeController {
 	public void publicar() {
 		comando.publicar(getTextoPublicar(), getConnectUser().getId());
 		setPublicacoes(comando.registry());
+		Collections.sort(publicacoes, comparator);
 	}
 
 	public PublicacaoDao getComando() {

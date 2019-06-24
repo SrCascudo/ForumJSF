@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import br.cascuda.forum.model.Publicacao;
+import br.cascuda.forum.model.TipoPublicacao;
 
 public class PublicacaoDao extends Dao<Publicacao> {
 
@@ -16,6 +17,20 @@ public class PublicacaoDao extends Dao<Publicacao> {
 		
 	}
 
+	public void criarComentario(Publicacao publicacao, int publicacaoReferente , int client) {
+		try {
+			stat = conn.prepareStatement(" INSERT INTO comentarios (idpublicacao , client , descricao , data_publicado) "
+									   + " VALUES (? , ? , ? , (select current_date) ) ");
+			stat.setInt(1, publicacaoReferente);
+			stat.setInt(2, client);
+			stat.setString(3, publicacao.getDescricao());
+			stat.execute();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	public void publicar(Publicacao obj, int id) {
 		
 		try {
@@ -37,6 +52,20 @@ public class PublicacaoDao extends Dao<Publicacao> {
 		
 	}
 
+	public void atualizarComentario(Publicacao publicacao) {
+		try {
+			stat = conn.prepareStatement(" UPDATE comentarios " 
+									    +" SET descricao = ? "
+										+" WHERE idcomentario = ? ");
+			stat.setString(1, publicacao.getDescricao());
+			stat.setInt(2, publicacao.getId());
+			stat.execute();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	@Override
 	void delete(Publicacao obj) {
 		// TODO Auto-generated method stub
@@ -56,6 +85,7 @@ public class PublicacaoDao extends Dao<Publicacao> {
 				publicacao.setNickQuemPublicou(takeNickUser(resultado.getInt("client")));
 				publicacao.setId(resultado.getInt("idpublicacao"));
 				publicacao.setQuandoPublicado(resultado.getDate("data_publicado").toLocalDate());
+				publicacao.setTipo(TipoPublicacao.QUESTAO);
 				publicacoes.add(publicacao);
 			}
 			
@@ -95,12 +125,14 @@ public class PublicacaoDao extends Dao<Publicacao> {
 			
 			while(resultado.next()) {
 				Publicacao publicacao = new Publicacao();
+				publicacao.setId(resultado.getInt("idcomentario"));
 				publicacao.setDescricao(resultado.getString("descricao"));
 				publicacao.setNickQuemPublicou(takeNickUser(resultado.getInt("client")));
 				publicacao.setQuandoPublicado(resultado.getDate("data_publicado").toLocalDate());
+				publicacao.setTipo(TipoPublicacao.COMENTARIO);
 				publicacoes.add(publicacao);
-				return publicacoes;
 			}
+			return publicacoes;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -133,7 +165,13 @@ public class PublicacaoDao extends Dao<Publicacao> {
 				publicacao.setNickQuemPublicou(takeNickUser(result.getInt("client")));
 				publicacao.setId(result.getInt("idpublicacao"));
 				publicacao.setQuandoPublicado(result.getDate("data_publicado").toLocalDate());
+				publicacao.setTipo(TipoPublicacao.QUESTAO);
 				publicacoes.add(publicacao);
+				if (takeComentarios(publicacao.getId()) != null) {
+					for (Publicacao comentario : takeComentarios(publicacao.getId())) {
+						publicacoes.add(comentario);
+					}
+				}
 			}
 			return publicacoes;
 			
@@ -145,11 +183,12 @@ public class PublicacaoDao extends Dao<Publicacao> {
 		return null;
 	}
 	
-	public List<Publicacao> consultarPorData(String date) {
+	private List<Publicacao> takePublicacaoReferente(int id) {
 		ResultSet result = null;
 		List<Publicacao> publicacoes = new ArrayList<Publicacao>();
 		try {
-			stat = conn.prepareStatement("SELECT * FROM publicacoes WHERE data_publicado = " + date);
+			stat = conn.prepareStatement("SELECT * FROM publicacoes WHERE idpublicacao = ?");
+			stat.setInt(1, id);
 			result = stat.executeQuery();
 			
 			while(result.next()) {
@@ -167,6 +206,26 @@ public class PublicacaoDao extends Dao<Publicacao> {
 			e.printStackTrace();
 		}
 		
+		return null;
+	}
+	
+	public Publicacao publicacaoByComentario(int id) {
+		try {
+			stat = conn.prepareStatement(" SELECT * FROM comentarios WHERE idcomentario = ? ");
+			stat.setInt(1, id);
+			
+			ResultSet result = stat.executeQuery();
+			
+			while(result.next()) {
+				for (Publicacao publicacao : takePublicacaoReferente(result.getInt("idpublicacao"))) {
+					return publicacao;
+				}
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
 	}
 }

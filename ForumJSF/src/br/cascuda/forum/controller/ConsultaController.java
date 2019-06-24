@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.context.Flash;
 import javax.faces.view.ViewScoped;
@@ -16,11 +17,12 @@ import javax.inject.Named;
 import br.cascuda.forum.dao.PublicacaoDao;
 import br.cascuda.forum.model.Publicacao;
 import br.cascuda.forum.model.UserServer;
+import br.cascuda.forum.redirect.Redirect;
 import br.cascuda.forum.util.Session;
 import br.cascuda.forum.util.Util;
 
 @Named
-@ViewScoped
+@RequestScoped
 public class ConsultaController implements Serializable {
 
 	private static final long serialVersionUID = -1905862185158065738L;
@@ -30,24 +32,30 @@ public class ConsultaController implements Serializable {
 	Comparator<Publicacao> comparator = new Comparator<Publicacao>() {
         @Override
         public int compare(Publicacao o1, Publicacao o2) {
-            return o1.getQuandoPublicado().compareTo(o2.getQuandoPublicado());
+            return o2.getQuandoPublicado().compareTo(o1.getQuandoPublicado());
         }
     };
 	
 	public ConsultaController() {
 		PublicacaoDao comando = new PublicacaoDao();
 		connectUser = (UserServer) Session.getInstance().getAttribute("connect");
-		comando.takePublicaoUser(getConnectUser().getId());
+		publicacoes = 	comando.takePublicaoUser(getConnectUser().getId());
 		Collections.sort(getPublicacoes(), comparator);
 	}
 
-	public void edit(UserServer user) {
+	public void edit(Publicacao publicacao) {
+		PublicacaoDao comando = new PublicacaoDao();
 		Flash flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
-		flash.put("register", user);
-		Util.redirect("");
+		if (publicacao.getTipo().getValue() == 2) {
+			flash.put("publicacao", comando.publicacaoByComentario(publicacao.getId()));
+			flash.put("comentario", publicacao);
+		}else {
+			flash.put("publicacao", publicacao);
+		}
+		Redirect.comentarios();
 	}
 
-	public void delete(UserServer user) {
+	public void delete(Publicacao user) {
 
 	}
 	
@@ -56,7 +64,7 @@ public class ConsultaController implements Serializable {
 		if (getBuscarApartirData() != null) {
 
 		} else {
-			publicacoes = comando.takePublicaoUser(getConnectUser().getId());
+			setPublicacoes(comando.takePublicaoUser(getConnectUser().getId()));
 			comando.encerrarConexao();
 			Collections.sort(getPublicacoes(), comparator);
 		}

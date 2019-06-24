@@ -77,36 +77,78 @@ center {
 		<hr />
 
 		<br /> <br />
-		<h:dataTable value="#{comentariosController.comentarios}"
-			var="elemento">
-			<h:column id="name">
-				<div class="media position-relative"
-					style="padding-left: 3%; padding-right: 25%;">
-					<h:graphicImage library="image" name="coffe.png" />
-					<div class="media-body">
-						<h5 class="mt-0">
-							<h:outputLabel value="#{elemento.nickQuemPublicou}" />
-						</h5>
-						<h:outputLabel style="width: 100%;" value="#{elemento.descricao}" />
-					</div>
-				</div>
-			</h:column>
-		</h:dataTable>
+		<h:form id="comentarios">
+			<h:dataTable value="#{comentariosController.comentarios}"
+				style="width: 100%;" var="elemento">
+				<h:column id="name">
+					<h:panelGroup
+						rendered="#{comentariosController.isEdit(elemento) == false}">
+						<div class="media position-relative"
+							style="padding-left: 3%; padding-right: 25%;">
+							<h:graphicImage library="image" name="coffe.png" />
+							<div class="media-body">
+								<h5 class="mt-0">
+									<h:outputLabel value="#{elemento.nickQuemPublicou}" />
+								</h5>
+								<h:outputLabel style="width: 100%;"
+									value="#{elemento.descricao}" />
+							</div>
+						</div>
+					</h:panelGroup>
+					<h:panelGroup
+						rendered="#{comentariosController.isEdit(elemento) == true}">
+						<div class="media position-relative"
+							style="padding-left: 3%; padding-right: 25%;">
+							<h:graphicImage library="image" name="coffe.png" />
+							<div class="media-body">
+								<h5 class="mt-0">
+									<h:outputLabel value="#{elemento.nickQuemPublicou}" />
+								</h5>
+								<h:inputTextarea rows="3" style="width:50%;"
+									value="#{elemento.descricao}">
+									
+								</h:inputTextarea>
+							</div>
+						</div>
+					</h:panelGroup>
+					<div class="row" style="margin-left: 25%; width: 20%;">
+							<div class="col-5">
+								<h:commandButton value="Cancelar" />
+							</div>
+							<div class="col">
+								<h:commandButton actionListener="#{comentariosController.editarComentario(elemento)}"
+									value="Editar">
+									<f:ajax execute="@form" render="@form"/>
+								</h:commandButton>
+							</div>
+						</div>
+						<br />
+				</h:column>
+			</h:dataTable>
+		</h:form>
 
-		<div class="row">
-			<div class="col-6">
-				<h:inputTextarea
-					style="margin-left: 6%; padding-left: 1%; padding-right: 0%; width: 100%; border-radius: 50px 0px 0px 50px;"
-					rows="1" />
+		<h:form id="comentar">
+			<div class="row">
+				<div class="col-6">
+					<h:inputTextarea
+						value="#{comentariosController.comentario.descricao}"
+						style="margin-left: 6%; padding-left: 1%; padding-right: 0%; width: 100%; border-radius: 50px 0px 0px 50px;"
+						rows="1" />
+				</div>
+				<div class="col">
+					<h:commandButton
+						actionListener="#{comentariosController.addComentario}"
+						value="Enviar"
+						style="padding-left: 0%; border-radius: 0px 50px 50px 0px;">
+						<f:ajax execute="@all" render="@all" />
+					</h:commandButton>
+				</div>
 			</div>
-			<div class="col">
-				<h:commandButton value="Enviar"
-					style="padding-left: 0%; border-radius: 0px 50px 50px 0px;" />
-			</div>
-		</div>
+		</h:form>
 	</div>
 	<br />
 	<br />
+
 
 	<div class="card text-center" style="margin-bottom: 0%;">
 		<div class="card-footer text-muted">

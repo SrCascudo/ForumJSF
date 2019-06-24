@@ -3,7 +3,7 @@ package br.cascuda.forum.model;
 import java.time.LocalDate;
 
 public class Publicacao {
-	private int id;
+	private Integer id;
 	private String nickQuemPublicou;
 	private String descricao;
 	private LocalDate quandoPublicado;
@@ -13,7 +13,7 @@ public class Publicacao {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
