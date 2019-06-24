@@ -21,4 +21,8 @@ public class Redirect {
 	static public void comentarios() {
 		Util.redirect("comentarios.xhtml");
 	}
+	
+	static public void editarComentario() {
+		Util.redirect("editarComentario.xhtml");
+	}
 }

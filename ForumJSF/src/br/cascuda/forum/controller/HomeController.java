@@ -37,8 +37,7 @@ public class HomeController {
 	}
 
 	public void redirectPergunta(Publicacao publicacao) {
-		Flash flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
-		flash.put("publicacao", publicacao);
+		Session.getInstance().setAttribute("publicacao", publicacao);
 		Redirect.comentarios();
 	}
 

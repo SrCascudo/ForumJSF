@@ -21,14 +21,13 @@ public class ComentariosController {
 	List<Publicacao> comentarios = new ArrayList<Publicacao>();
 	private Publicacao comentario = new Publicacao();
 	private Publicacao comentarioEdit = new Publicacao();
+	private String forEdit;
 	private Boolean show = false;
 
 	public ComentariosController() {
 		// TODO Auto-generated constructor stub
 		Flash flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
-		publicacao = (Publicacao) flash.get("publicacao");
-		flash.keep("publicacao");
-		
+		publicacao = (Publicacao) Session.getInstance().getAttribute("publicacao");
 		PublicacaoDao comando = new PublicacaoDao();
 		comentarios = comando.takeComentarios(publicacao.getId());
 		comentarioEdit = (Publicacao) flash.get("comentario");
@@ -39,13 +38,14 @@ public class ComentariosController {
 		System.out.println("Add Comentario");
 		PublicacaoDao comando = new PublicacaoDao();
 		UserServer user = (UserServer) Session.getInstance().getAttribute("connect");
-		
+
 		comando.criarComentario(getComentario(), getPublicacao().getId(), user.getId());
 		setComentarios(comando.takeComentarios(publicacao.getId()));
 	}
 
 	public void editarComentario(Publicacao publicacao) {
-		System.out.println("Editar");
+		System.out.println(getForEdit());
+		System.out.println(publicacao.getDescricao());
 		PublicacaoDao comando = new PublicacaoDao();
 		comando.atualizarComentario(publicacao);
 	}
@@ -55,6 +55,14 @@ public class ComentariosController {
 			if (publicacao.getId() == getComentarioEdit().getId())
 				return true;
 		return false;
+	}
+
+	public String getForEdit() {
+		return forEdit;
+	}
+
+	public void setForEdit(String forEdit) {
+		this.forEdit = forEdit;
 	}
 
 	public Publicacao getComentario() {

@@ -30,27 +30,28 @@ public class ConsultaController implements Serializable {
 	private LocalDate buscarApartirData = null;
 	private List<Publicacao> publicacoes = new ArrayList<Publicacao>();
 	Comparator<Publicacao> comparator = new Comparator<Publicacao>() {
-        @Override
-        public int compare(Publicacao o1, Publicacao o2) {
-            return o2.getQuandoPublicado().compareTo(o1.getQuandoPublicado());
-        }
-    };
-	
+		@Override
+		public int compare(Publicacao o1, Publicacao o2) {
+			return o2.getQuandoPublicado().compareTo(o1.getQuandoPublicado());
+		}
+	};
+
 	public ConsultaController() {
 		PublicacaoDao comando = new PublicacaoDao();
 		connectUser = (UserServer) Session.getInstance().getAttribute("connect");
-		publicacoes = 	comando.takePublicaoUser(getConnectUser().getId());
+		publicacoes = comando.takePublicaoUser(getConnectUser().getId());
 		Collections.sort(getPublicacoes(), comparator);
 	}
 
 	public void edit(Publicacao publicacao) {
 		PublicacaoDao comando = new PublicacaoDao();
+
 		Flash flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
 		if (publicacao.getTipo().getValue() == 2) {
-			flash.put("publicacao", comando.publicacaoByComentario(publicacao.getId()));
+			Session.getInstance().setAttribute("publicacao", comando.publicacaoByComentario(publicacao.getId()));
 			flash.put("comentario", publicacao);
-		}else {
-			flash.put("publicacao", publicacao);
+		} else {
+			Session.getInstance().setAttribute("publicacao", publicacao);
 		}
 		Redirect.comentarios();
 	}
@@ -58,7 +59,7 @@ public class ConsultaController implements Serializable {
 	public void delete(Publicacao user) {
 
 	}
-	
+
 	public void pesquisar() {
 		PublicacaoDao comando = new PublicacaoDao();
 		if (getBuscarApartirData() != null) {
@@ -74,7 +75,7 @@ public class ConsultaController implements Serializable {
 		Session.getInstance().invalidateSession();
 		Util.redirect("");
 	}
-	
+
 	public List<Publicacao> getPublicacoes() {
 		return publicacoes;
 	}
