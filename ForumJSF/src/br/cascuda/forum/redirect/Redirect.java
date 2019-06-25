@@ -2,6 +2,7 @@ package br.cascuda.forum.redirect;
 
 import javax.inject.Named;
 
+import br.cascuda.forum.util.Session;
 import br.cascuda.forum.util.Util;
 
 @Named
@@ -22,7 +23,8 @@ public class Redirect {
 		Util.redirect("comentarios.xhtml");
 	}
 	
-	static public void editarComentario() {
-		Util.redirect("editarComentario.xhtml");
+	static public void sair() {
+		Util.redirect("/ForumJSF/faces/login.xhtml");
+		Session.getInstance().invalidateSession();
 	}
 }

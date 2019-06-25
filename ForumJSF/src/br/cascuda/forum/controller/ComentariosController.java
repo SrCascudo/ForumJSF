@@ -22,7 +22,6 @@ public class ComentariosController {
 	private Publicacao comentario = new Publicacao();
 	private Publicacao comentarioEdit = new Publicacao();
 	private String forEdit;
-	private Boolean show = false;
 
 	public ComentariosController() {
 		// TODO Auto-generated constructor stub
@@ -30,6 +29,7 @@ public class ComentariosController {
 		publicacao = (Publicacao) Session.getInstance().getAttribute("publicacao");
 		PublicacaoDao comando = new PublicacaoDao();
 		comentarios = comando.takeComentarios(publicacao.getId());
+		flash.keep("comentario");
 		comentarioEdit = (Publicacao) flash.get("comentario");
 		comando.encerrarConexao();
 	}
@@ -44,17 +44,20 @@ public class ComentariosController {
 	}
 
 	public void editarComentario(Publicacao publicacao) {
-		System.out.println(getForEdit());
 		System.out.println(publicacao.getDescricao());
 		PublicacaoDao comando = new PublicacaoDao();
 		comando.atualizarComentario(publicacao);
 	}
 
-	public Boolean isEdit(Publicacao publicacao) {
-		if (getComentarioEdit() != null)
-			if (publicacao.getId() == getComentarioEdit().getId())
+	public boolean isEdit(Publicacao publicacao) {
+		if (getComentarioEdit() != null) {
+			if (publicacao.getId() == getComentarioEdit().getId()) {
 				return true;
-		return false;
+			}
+		} else {
+			return false;
+		}
+		return null != null;
 	}
 
 	public String getForEdit() {
@@ -71,14 +74,6 @@ public class ComentariosController {
 
 	public void setComentario(Publicacao comentario) {
 		this.comentario = comentario;
-	}
-
-	public Boolean getShow() {
-		return show;
-	}
-
-	public void setShow(Boolean show) {
-		this.show = show;
 	}
 
 	public Publicacao getComentarioEdit() {

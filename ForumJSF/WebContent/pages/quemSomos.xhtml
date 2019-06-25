@@ -25,16 +25,15 @@ center {
 						<li class="nav-item"><h:commandLink class="nav-link"
 								value="Home"
 								style="text-decoration: none; color: #04bcd1; border-color: transparent; background-color: transparent;"
-								actionListener="#{logInController.redirectHomeLog}" /></li>
+								actionListener="#{redirect.home}" /></li>
 						<li class="nav-item"><h:commandLink class="nav-link"
 								value="Quem Somos"
 								style="text-decoration: none; color: #04bcd1; border-color: transparent; background-color: transparent;"
-								actionListener="#{logInController.redirectQuemSomos}" /></li>
+								actionListener="#{redirect.quemSomos}" /></li>
 
 						<li class="nav-item"><h:commandLink class="nav-link"
 								value="Feed-Back"
-								style="text-decoration: none; color: #04bcd1; border-color: transparent; background-color: transparent;"
-								actionListener="#{logInController.redirectFeedBack}" /></li>
+								style="text-decoration: none; color: #04bcd1; border-color: transparent; background-color: transparent;" /></li>
 					</ul>
 				</div>
 
@@ -49,15 +48,11 @@ center {
 						</button>
 						<div style="margin-right: 1cm;"
 							class="dropdown-menu dropdown-menu-right">
-							<h:commandLink actionListener="#{homeController.redirectPerfil}"
-								class="dropdown-item" value="Editar Perfil" />
-							<h:commandLink class="dropdown-item" value="Opção 02" />
-							<h:commandLink
-								actionListener="#{homeController.redirectMenuRoot}"
-								class="dropdown-item" value="Adminstrador" />
+							<h:commandLink class="dropdown-item" value="Editar Perfil" />
+							<h:commandLink actionListener="#{redirect.consulta}"
+								class="dropdown-item" value="Registro de Atividade" />
 							<div class="dropdown-divider"></div>
-							<h:commandLink
-								actionListener="#{consultaController.redirectSair}"
+							<h:commandLink actionListener="#{redirect.sair}"
 								class="dropdown-item" value="Sair" />
 						</div>
 					</div>
@@ -88,12 +83,13 @@ center {
 			name="vinicius.jpg" alt="vinicius" />
 	</center>
 
-		<br/>
-		<div class="card text-center">
-			<div class="card-footer text-muted">Desenvolvimento: Jhon Helder e Vinícius Santos         
-				<br/>    
-			   Forum Master - ©2019</div>
+	<br />
+	<div class="card text-center">
+		<div class="card-footer text-muted">
+			Desenvolvimento: Jhon Helder e Vinícius Santos <br /> Forum Master -
+			©2019
 		</div>
+	</div>
 
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
 		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

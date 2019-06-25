@@ -9,17 +9,7 @@
 		href="#{resource['image/coffe.png']}" />
 	<meta charset="utf-8" />
 	<h:outputStylesheet library="css" name="bootstrap.min.css" />
-	<style>
-* {
-	margin: 0;
-	padding: 0;
-}
 
-center {
-	margin-left: 50px;
-	margin-right: 50px;
-}
-</style>
 </h:head>
 <h:body>
 	<header>
@@ -29,10 +19,10 @@ center {
 				<div class="navbar-collapse" id="navbarSupportedContent">
 					<ul class="navbar-nav mr-auto">
 						<li class="nav-item"><h:commandLink class="nav-link"
-								value="Home"
+								actionListener="#{redirect.home}" value="Home"
 								style="text-decoration: none; color: #04bcd1; border-color: transparent; background-color: transparent;" /></li>
 						<li class="nav-item"><h:commandLink class="nav-link"
-								value="Quem Somos"
+								actionListener="#{redirect.quemSomos}" value="Quem Somos"
 								style="text-decoration: none; color: #04bcd1; border-color: transparent; background-color: transparent;" /></li>
 
 						<li class="nav-item"><h:commandLink class="nav-link"
@@ -53,10 +43,12 @@ center {
 						<div style="margin-right: 1cm;"
 							class="dropdown-menu dropdown-menu-right">
 							<h:commandLink class="dropdown-item" value="Editar Perfil" />
-							<h:commandLink class="dropdown-item" value="Opção 02" />
-							<h:commandLink class="dropdown-item" value="Adminstrador" />
+							<h:commandLink class="dropdown-item"
+								value="Registro de Atividade"
+								actionListener="#{redirect.consulta}" />
 							<div class="dropdown-divider"></div>
-							<h:commandLink class="dropdown-item" value="Sair" />
+							<h:commandLink class="dropdown-item" value="Sair"
+								actionListener="#{redirect.sair}" />
 						</div>
 					</div>
 				</div>
@@ -79,52 +71,42 @@ center {
 		<hr />
 
 		<br /> <br />
-		<h:form id="comentarios">
+		<h:form>
 			<h:dataTable value="#{comentariosController.comentarios}"
 				style="width: 100%;" var="elemento">
 				<h:column id="name">
-					<h:panelGrid rendered="#{comentariosController.isEdit(elemento) == false}">
-						<div class="media position-relative"
-							style="padding-left: 3%; padding-right: 25%;">
-							<h:graphicImage library="image" name="coffe.png" />
-							<div class="media-body">
-								<h5 class="mt-0">
-									<h:outputLabel value="#{elemento.nickQuemPublicou}" />
-								</h5>
-								<h:outputLabel style="width: 100%;"
-									value="#{elemento.descricao}" />
-							</div>
-						</div>
-					</h:panelGrid>
+					<div class="media position-relative"
+						style="padding-left: 3%; padding-right: 25%;">
+						<h:graphicImage library="image" name="coffe.png" />
+						<div class="media-body">
 
-					<h:panelGrid rendered="#{comentariosController.isEdit(elemento) == true}">
-						<div class="media position-relative"
-							style="padding-left: 3%; padding-right: 25%;">
-							<h:graphicImage library="image" name="coffe.png" />
-							<div class="media-body">
-								<h5 class="mt-0">
-									<h:outputLabel value="#{elemento.nickQuemPublicou}" />
-								</h5>
+							<h5>#{elemento.nickQuemPublicou}</h5>
 
-								<h:inputTextarea rows="3" style="width:50%;"
+							<h:outputLabel style="width: 100%;" value="#{elemento.descricao}"
+								rendered="#{comentariosController.isEdit(elemento) == false}" />
+
+							<h:panelGroup id="painel"
+								rendered="#{comentariosController.isEdit(elemento) == true}">
+								
+								<h:inputTextarea id="hidden" rows="3" style="width:50%;"
 									value="#{elemento.descricao}">
 								</h:inputTextarea>
-
-								<div class="row" style="margin-left: 25%; width: 20%;">
+								
+								<div id="buttons" class="row"
+									style="margin-left: 25%; width: 20%;">
 									<div class="col-5">
 										<h:commandButton value="Cancelar" />
 									</div>
 									<div class="col">
-										<h:commandButton
-											actionListener="#{comentariosController.editarComentario(elemento)}"
-											value="Editar">
-											<f:ajax execute="editComentario" render="@all" />
+										<h:commandButton value="Editar"
+											actionListener="#{comentariosController.editarComentario(elemento)}">
+											<f:ajax execute="painel" render="@form"/>
 										</h:commandButton>
 									</div>
 								</div>
-							</div>
+							</h:panelGroup>
 						</div>
-					</h:panelGrid>
+					</div>
 					<br />
 				</h:column>
 			</h:dataTable>

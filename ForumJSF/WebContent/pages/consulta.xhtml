@@ -22,10 +22,10 @@
 				<div class="navbar-collapse" id="navbarSupportedContent">
 					<ul class="navbar-nav mr-auto">
 						<li class="nav-item"><h:commandButton class="nav-link"
-								value="Home"
+								actionListener="#{redirect.home}" value="Home"
 								style="text-decoration: none; color: #04bcd1; border-color: transparent; background-color: transparent;" /></li>
 						<li class="nav-item"><h:commandButton class="nav-link"
-								value="Quem Somos"
+								value="Quem Somos" actionListener="#{redirect.quemSomos}"
 								style="text-decoration: none; color: #04bcd1; border-color: transparent; background-color: transparent;" /></li>
 
 						<li class="nav-item"><h:commandButton class="nav-link"
@@ -46,10 +46,11 @@
 						<div style="margin-right: 1cm;"
 							class="dropdown-menu dropdown-menu-right">
 							<h:commandLink class="dropdown-item" value="Editar Perfil" />
-							<h:commandLink class="dropdown-item" value="Opção 02" />
-							<h:commandLink class="dropdown-item" value="Adminstrador" />
+							<h:commandLink class="dropdown-item"
+								value="Registro de Atividade" actionListener="#{redirect.consulta}" />
 							<div class="dropdown-divider"></div>
-							<h:commandLink class="dropdown-item" value="Sair" />
+							<h:commandLink class="dropdown-item"
+								actionListener="#{redirect.sair}" value="Sair" />
 						</div>
 					</div>
 				</div>
@@ -98,13 +99,15 @@
 					</h:outputText>
 				</h:column>
 				<h:column>
-					<h:commandLink actionListener="#{consultaController.edit(elemento)}"
+					<h:commandLink
+						actionListener="#{consultaController.edit(elemento)}"
 						style="border: 0px; background-color: transparent;">
 						<h:graphicImage width="15%" library="image" name="edit.png" />
 					</h:commandLink>
 
-					<h:commandLink actionListener="#{consultaController.delete(elemento)}"
-						value=" " style="border: 0px; background-color: transparent;">
+					<h:commandLink
+						actionListener="#{consultaController.delete(elemento)}" value=" "
+						style="border: 0px; background-color: transparent;">
 						<h:graphicImage width="15%" library="image" name="delete.png" />
 						<f:ajax execute="@this" render="busca" />
 					</h:commandLink>
