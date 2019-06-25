@@ -8,15 +8,15 @@ import br.cascuda.forum.util.Util;
 @Named
 public class Redirect {
 	static public void consulta() {
-		Util.redirect("consulta.xhtml");
+		Util.redirect("/ForumJSF/faces/pages/consulta.xhtml");
 	}
 	
 	static public void home() {
-		Util.redirect("home.xhtml");
+		Util.redirect("/ForumJSF/faces/home.xhtml");
 	}
 	
 	static public void quemSomos() {
-		Util.redirect("quemSomos.xhtml");
+		Util.redirect("/ForumJSF/faces/pages/quemSomos.xhtml");
 	}
 	
 	static public void comentarios() {
@@ -24,11 +24,11 @@ public class Redirect {
 	}
 	
 	static public void perfil() {
-		Util.redirect("perfilUser.xhtml");
+		Util.redirect("/ForumJSF/faces/pages/perfilUser.xhtml");
 	}
 	
 	static public void sair() {
-		Util.redirect("/ForumJSF/faces/login.xhtml");
+		Util.redirect("/ForumJSF/faces/home.xhtml");
 		Session.getInstance().invalidateSession();
 	}
 }

@@ -35,7 +35,7 @@ public class LogInController{
 	public void start() {
 		if (validation()) {
 			System.out.println("ACESSO LIBERADO");
-			Util.redirect("pages/home.xhtml");
+			Util.redirect("/ForumJSF/faces/home.xhtml");
 			
 		} else {
 			System.out.println("ACESSO NEGADO");

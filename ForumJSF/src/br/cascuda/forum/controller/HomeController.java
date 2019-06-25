@@ -5,8 +5,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
-import javax.faces.context.FacesContext;
-import javax.faces.context.Flash;
 import javax.inject.Named;
 
 import br.cascuda.forum.dao.PublicacaoDao;
@@ -22,6 +20,7 @@ public class HomeController {
 	private UserServer connectUser = new UserServer();
 	private List<Publicacao> publicacoes = getComando().registry();
 	private Publicacao textoPublicar = new Publicacao();
+	private Boolean connected = null;
 	Comparator<Publicacao> comparator = new Comparator<Publicacao>() {
 		@Override
 		public int compare(Publicacao o1, Publicacao o2) {
@@ -33,7 +32,13 @@ public class HomeController {
 		super();
 		Collections.sort(publicacoes, comparator);
 		connectUser = (UserServer) Session.getInstance().getAttribute("connect");
-		System.out.println(connectUser.getId());
+		if (connectUser == null) {
+			connected = false;
+			System.out.println("falso");
+		} else {
+			connected = true;
+			System.out.println("verdadeiro");
+		}
 	}
 
 	public void redirectPergunta(Publicacao publicacao) {
@@ -77,6 +82,14 @@ public class HomeController {
 
 	public void setConnectUser(UserServer connectUser) {
 		this.connectUser = connectUser;
+	}
+
+	public Boolean getConnected() {
+		return connected;
+	}
+
+	public void setConnected(Boolean connected) {
+		this.connected = connected;
 	}
 
 }

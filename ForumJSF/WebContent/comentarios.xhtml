@@ -1,0 +1,130 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	template="/pages/template/layout.xhtml">
+
+	<ui:define name="title">#{comentariosController.publicacao.descricao}</ui:define>
+
+	<ui:define name="opUser">
+		<h:panelGroup rendered="#{homeController.connected}">
+			<div class="row">
+				<div class="btn-group">
+					<button type="button"
+						style="margin-right: 1cm; border: 0px; background-color: transparent;"
+						class="btn dropdown-toggle" data-toggle="dropdown"
+						aria-haspopup="true" aria-expanded="false">
+						<h:graphicImage width="50%" library="image" name="userRoot.png" />
+					</button>
+					<div style="margin-right: 1cm;"
+						class="dropdown-menu dropdown-menu-right">
+						<h:commandLink class="dropdown-item" value="Perfil"
+							actionListener="#{redirect.perfil}" />
+						<h:commandLink actionListener="#{redirect.consulta}"
+							class="dropdown-item" value="Registro de Atividade" />
+						<div class="dropdown-divider"></div>
+						<h:commandLink class="dropdown-item" action="#{redirect.sair}"
+							value="Sair" />
+					</div>
+				</div>
+			</div>
+		</h:panelGroup>
+
+		<h:panelGroup rendered="#{homeController.connected == false}">
+			<div class="row">
+				<div class="col-4" style="margin-top: 3px;">
+					<h:commandButton action="login.xhtml?faces-redirect=true"
+						style="text-decoration: none; color: #04bcd1; text-shadow: 0px 0px 10px #04bcd1; font-size: 18px; text-decoration: none; color: #04bcd1; border-color: transparent; background-color: transparent;"
+						value="Log in" />
+				</div>
+				<div class="col-4">
+					<h:commandButton action="signUp.xhtml?faces-redirect=true"
+						class="btn btn-outline-secondary" value="Sign Up" />
+				</div>
+			</div>
+		</h:panelGroup>
+	</ui:define>
+
+	<ui:define name="content">
+		<h1>Forum Master</h1>
+		<br />
+		<div class="container">
+			<div style="margin-left: 1cm; margin-right: 1cm"
+				class="card border-secondary mb-3">
+				<h:outputLabel class="card-header"
+					value="#{comentariosController.publicacao.nickQuemPublicou}" />
+				<h3 style="padding-left: 3%; padding-right: 1%;">
+					<h:outputLabel
+						value="#{comentariosController.publicacao.descricao}" />
+				</h3>
+				<cite title="Data publicado">#{comentariosController.publicacao.quandoPublicado}</cite>
+			</div>
+			<hr />
+
+			<br /> <br />
+			<h:form>
+				<h:dataTable value="#{comentariosController.comentarios}"
+					style="width: 100%;" var="elemento">
+					<h:column id="name">
+						<div class="media position-relative"
+							style="padding-left: 3%; padding-right: 25%;">
+							<h:graphicImage library="image" name="coffe.png" />
+							<div class="media-body">
+
+								<h5>#{elemento.nickQuemPublicou}</h5>
+
+								<h:outputLabel style="width: 100%;"
+									value="#{elemento.descricao}"
+									rendered="#{comentariosController.isEdit(elemento) == false}" />
+
+								<h:panelGroup id="painel"
+									rendered="#{comentariosController.isEdit(elemento) == true}">
+
+									<h:inputTextarea id="hidden" rows="3" style="width:50%;"
+										value="#{elemento.descricao}">
+									</h:inputTextarea>
+
+									<div id="buttons" class="row"
+										style="margin-left: 25%; width: 20%;">
+										<div class="col-5">
+											<h:commandButton value="Cancelar" />
+										</div>
+										<div class="col">
+											<h:commandButton value="Editar"
+												actionListener="#{comentariosController.editarComentario(elemento)}">
+												<f:ajax execute="painel" render="@form" />
+											</h:commandButton>
+										</div>
+									</div>
+								</h:panelGroup>
+							</div>
+						</div>
+						<br />
+					</h:column>
+				</h:dataTable>
+			</h:form>
+
+			<h:form id="comentar">
+				<div class="row">
+					<div class="col-6">
+						<h:inputTextarea
+							value="#{comentariosController.comentario.descricao}"
+							style="margin-left: 6%; padding-left: 1%; padding-right: 0%; width: 100%; border-radius: 50px 0px 0px 50px;"
+							rows="1" />
+					</div>
+					<div class="col">
+						<h:commandButton
+							actionListener="#{comentariosController.addComentario}"
+							value="Enviar"
+							style="padding-left: 0%; border-radius: 0px 50px 50px 0px;">
+							<f:ajax execute="@all" render="@all" />
+						</h:commandButton>
+					</div>
+				</div>
+			</h:form>
+		</div>
+		<br />
+		<br />
+	</ui:define>
+</ui:composition>

@@ -1,110 +1,49 @@
-<!DOCTYPE html>
-<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:h="http://xmlns.jcp.org/jsf/html">
-<h:head>
-	<title>Home</title>
-	<link rel="shortcut icon" type="image/x-icon"
-		href="#{resource['image/coffe.png']}" />
-	<meta charset="utf-8" />
-	<h:outputStylesheet library="css" name="bootstrap.min.css" />
-	<style>
-center {
-	margin-left: 50px;
-	margin-right: 50px;
-}
-</style>
-</h:head>
-<h:body>
-	<header>
-		<h:form style="width: 100%; padding-rigth: 0cm;">
-			<nav class="navbar navbar-expand-lg navbar-light"
-				style="background-color: #e3f2fd;">
-				<div class="navbar-collapse" id="navbarSupportedContent">
-					<ul class="navbar-nav mr-auto">
-						<li class="nav-item"><h:commandLink class="nav-link"
-								value="Home"
-								style="text-decoration: none; color: #04bcd1; border-color: transparent; background-color: transparent;"
-								actionListener="#{logInController.redirectHomeLog}" /></li>
-						<li class="nav-item"><h:commandLink class="nav-link"
-								value="Quem Somos"
-								style="text-decoration: none; color: #04bcd1; border-color: transparent; background-color: transparent;"
-								actionListener="#{logInController.redirectQuemSomos}" /></li>
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	template="/pages/template/layout.xhtml">
 
-						<li class="nav-item"><h:commandLink class="nav-link"
-								value="Feed-Back"
-								style="text-decoration: none; color: #04bcd1; border-color: transparent; background-color: transparent;"
-								actionListener="#{logInController.redirectFeedBack}" /></li>
-					</ul>
-				</div>
+	<ui:define name="title">Quem Somos</ui:define>
 
+	<ui:define name="content">
 
-				<div class="row">
-					<div class="btn-group">
-						<button type="button"
-							style="margin-right: 1cm; border: 0px; background-color: transparent;"
-							class="btn dropdown-toggle" data-toggle="dropdown"
-							aria-haspopup="true" aria-expanded="false">
-							<h:graphicImage width="50%" library="image" name="userRoot.png" />
-						</button>
-						<div style="margin-right: 1cm;"
-							class="dropdown-menu dropdown-menu-right">
-							<h:commandLink actionListener="#{homeController.redirectPerfil}"
-								class="dropdown-item" value="Editar Perfil" />
-							<h:commandLink class="dropdown-item" value="Opção 02" />
-							<h:commandLink
-								actionListener="#{homeController.redirectMenuRoot}"
-								class="dropdown-item" value="Adminstrador" />
-							<div class="dropdown-divider"></div>
-							<h:commandLink
-								actionListener="#{consultaController.redirectSair}"
-								class="dropdown-item" value="Sair" />
+		<div class="row elemento">
+			<div class="col">
+				<div class="container marketing">
+					<div class="row">
+						<div class="col-lg-6 container">
+							<h:graphicImage library="image" name="john.jpg"
+								class="imgPerfilJohn" />
+						</div>
+					</div>
+					<div class="row">
+						<div class="col">
+							<h:outputLabel
+								style="color: Black; text-shadow: 2px 2px 4px #000000; font-size: 40px;"
+								value="John Helder" />
 						</div>
 					</div>
 				</div>
-			</nav>
-		</h:form>
-	</header>
-	<br />
-	<br />
-	<center>
-		<h1>Quem Somos</h1>
-	</center>
-	<br />
-	<br />
-
-
-	<h3 style="font-family: monospace; font-size: 18px; color: green"
-		align="center">Somos estudantes universitários do curso de
-		sistemas de informação da Universidade do Tocantins campus Palmas.</h3>
-
-	<br />
-	<br />
-
-	<center>
-		<h:graphicImage width="200px" height="200px" library="image"
-			name="john.jpg" alt="john" />
-		<h:graphicImage style="padding-left: 3cm;" library="image"
-			name="vinicius.jpg" alt="vinicius" />
-	</center>
-
-		<br/>
-		<div class="card text-center">
-			<div class="card-footer text-muted">Desenvolvimento: Jhon Helder e Vinícius Santos         
-				<br/>    
-			   Forum Master - ©2019</div>
+			</div>
+			<div class="col">
+				<div class="container marketing">
+					<div class="row">
+						<div class="col-lg-6 container">
+							<h:graphicImage library="image" name="vinicius.jpg"
+								class="imgPerfilJohn" /> <!-- NAVEGADOR COM CACHE CLASS CORRETA "imgDev" -->
+						</div>
+					</div>
+					<div class="row">
+						<div class="col">
+							<h:outputLabel
+								style="color: Black; text-shadow: 2px 2px 4px #000000; font-size: 40px;"
+								value="Vinicius Bessa" />
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
-
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-		crossorigin="anonymous"></script>
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-		crossorigin="anonymous"></script>
-	<script
-		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-		crossorigin="anonymous"></script>
-</h:body>
-</html>
+	</ui:define>
+</ui:composition>

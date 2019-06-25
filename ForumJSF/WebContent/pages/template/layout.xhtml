@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+<h:head>
+	<title>
+		<ui:insert name="title">
+		</ui:insert>
+	</title>
+	<link rel="shortcut icon" type="image/x-icon"
+		href="#{resource['image/coffe.png']}" />
+	<meta charset="utf-8" />
+	<h:outputStylesheet library="css" name="bootstrap.min.css" />
+	<h:outputStylesheet library="css" name="cascuda.qs.css"/>
+</h:head>
+<h:body>
+
+	<div id="header">
+		<ui:insert name="header">
+			<ui:include src="/pages/template/header.xhtml">
+			</ui:include>
+		</ui:insert>
+	</div>
+
+	<div id="content">
+		<ui:insert name="content">
+		</ui:insert>
+	</div>
+
+	<div id="footer">
+		<ui:insert name="footer">
+			<ui:include src="/pages/template/footer.xhtml">
+			</ui:include>
+		</ui:insert>
+	</div>
+
+</h:body>
+</html>

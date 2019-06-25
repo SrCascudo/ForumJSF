@@ -1,0 +1,90 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	template="/pages/template/layout.xhtml">
+
+	<ui:define name="title">Home</ui:define>
+
+	<ui:define name="opUser">
+		<h:panelGroup rendered="#{homeController.connected}">
+			<div class="row">
+				<div class="btn-group">
+					<button type="button"
+						style="margin-right: 1cm; border: 0px; background-color: transparent;"
+						class="btn dropdown-toggle" data-toggle="dropdown"
+						aria-haspopup="true" aria-expanded="false">
+						<h:graphicImage width="50%" library="image" name="userRoot.png" />
+					</button>
+					<div style="margin-right: 1cm;"
+						class="dropdown-menu dropdown-menu-right">
+						<h:commandLink class="dropdown-item" value="Perfil"
+							actionListener="#{redirect.perfil}" />
+						<h:commandLink actionListener="#{redirect.consulta}"
+							class="dropdown-item" value="Registro de Atividade" />
+						<div class="dropdown-divider"></div>
+						<h:commandLink class="dropdown-item" action="#{redirect.sair}"
+							value="Sair" />
+					</div>
+				</div>
+			</div>
+		</h:panelGroup>
+
+		<h:panelGroup rendered="#{homeController.connected == false}">
+			<div class="row">
+				<div class="col-4" style="margin-top: 3px;">
+					<h:commandButton action="login.xhtml?faces-redirect=true"
+						style="text-decoration: none; color: #04bcd1; text-shadow: 0px 0px 10px #04bcd1; font-size: 18px; text-decoration: none; color: #04bcd1; border-color: transparent; background-color: transparent;"
+						value="Log in" />
+				</div>
+				<div class="col-4">
+					<h:commandButton action="signUp.xhtml?faces-redirect=true"
+						class="btn btn-outline-secondary" value="Sign Up" />
+				</div>
+			</div>
+		</h:panelGroup>
+	</ui:define>
+
+	<ui:define name="content">
+		<h:form>
+			<div class="form-group" style="margin-left: 5%; width: 45%;">
+				<label for="exampleFormControlTextarea1" style="color: green;">Post
+					Rápido</label>
+				<h:inputTextarea class="form-control" id="post" rows="8"
+					style="width: 100%;"
+					value="#{homeController.textoPublicar.descricao}" />
+				<br />
+				<h:commandButton style="margin-left:87%;" value="ENVIAR"
+					actionListener="#{homeController.publicar}">
+					<f:ajax execute="@form" render="publicacoes" />
+				</h:commandButton>
+			</div>
+		</h:form>
+		<br />
+		<br />
+
+		<h2 style="margin-left: 5%;">PERGUNTAS</h2>
+		<hr />
+
+
+		<h:form id="publicacoes" class="table container" style="width: 80%">
+			<h:dataTable value="#{homeController.publicacoes}"
+				style="width:100%;" var="elemento">
+				<h:column id="name">
+					<div class="card border-secondary mb-3">
+						<h:outputLabel class="card-header"
+							value="#{elemento.nickQuemPublicou}" />
+						<h3 style="padding-left: 3%; padding-right: 1%; margin: 0px;">
+							<h:commandLink value="#{elemento.descricao}"
+								action="#{homeController.redirectPergunta(elemento)}" />
+						</h3>
+						<cite style="margin-left: 1%; padding-top: 1%;"
+							title="#{elemento.quandoPublicado}">
+							#{elemento.quandoPublicado} </cite>
+					</div>
+				</h:column>
+			</h:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>

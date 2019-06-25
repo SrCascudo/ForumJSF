@@ -1,127 +1,95 @@
-<!DOCTYPE html>
-<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:h="http://xmlns.jcp.org/jsf/html">
-<h:head>
-	<title>Cadastro</title>
-	<link rel="shortcut icon" type="image/x-icon"
-		href="#{resource['image/coffe.png']}" />
-	<meta charset="utf-8" />
-	<h:outputStylesheet library="css" name="bootstrap.min.css" />
-</h:head>
-<h:body>
-	<header>
-		<h:form style="width: 100%; padding-rigth: 0cm;">
-			<nav class="navbar navbar-expand-lg navbar-light"
-				style="background-color: #e3f2fd;">
-				<div class="navbar-collapse" id="navbarSupportedContent">
-					<ul class="navbar-nav mr-auto">
-						<li class="nav-item"><h:commandButton class="nav-link"
-								value="Home"
-								style="text-decoration: none; color: #04bcd1; border-color: transparent; background-color: transparent;"
-								actionListener="#{logInController.redirectHomeLog}" /></li>
-						<li class="nav-item"><h:commandButton class="nav-link"
-								value="Quem Somos"
-								style="text-decoration: none; color: #04bcd1; border-color: transparent; background-color: transparent;"
-								actionListener="#{logInController.redirectQuemSomos}" /></li>
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	template="/pages/template/layout.xhtml">
 
-						<li class="nav-item"><h:commandButton class="nav-link"
-								value="Feed-Back"
-								style="text-decoration: none; color: #04bcd1; border-color: transparent; background-color: transparent;"
-								actionListener="#{logInController.redirectFeedBack}" /></li>
-					</ul>
-				</div>
+	<ui:define name="title">Sign Up</ui:define>
 
-
-				<div class="row">
-					<div class="col-4" style="margin-top: 3px;">
-						<h:commandButton action="login.xhtml?faces-redirect=true"
-							style="text-decoration: none; color: #04bcd1; text-shadow: 0px 0px 10px #04bcd1; font-size: 18px; text-decoration: none; color: #04bcd1; border-color: transparent; background-color: transparent;"
-							value="Log in" />
-					</div>
-					<div class="col-4">
-						<h:commandButton action="signUp.xhtml?faces-redirect=true"
-							class="btn btn-outline-secondary" value="Sign Up" />
-					</div>
-				</div>
-			</nav>
-		</h:form>
-	</header>
-	<div class="container shadow-lg p-4 mb-6 bg-white rounded-lg"
-		style="width: 50%; margin-top: 2%;">
-		<BR />
-
-		<h:messages globalOnly="true" class="alert alert-danger" />
-		<h:form>
-			<div class="row">
-				<div class="col">
-					<h:outputText for="exampleFormControlh:inputText1" value="NOME" />
-					<h:inputText value="#{signUpController.user.name}" id="itNome"
-						type="text" class="form-control" />
-					<div style="padding-top: 3px;">
-						<h:message class="alert-danger"
-							style="padding: 3px; border-radius: 5px;" for="itNome" />
-					</div>
-
-				</div>
-				<div class="col">
-					<h:outputText for="exampleFormControlh:inputText1" value="NICK" />
-					<h:inputText value="#{signUpController.user.nick}" id="itNick"
-						type="text" class="form-control" />
-					<div style="padding-top: 3px;">
-						<h:message class="alert-danger"
-							style="padding: 3px; border-radius: 5px;" for="itNick" />
-					</div>
-				</div>
+	<ui:define name="opUser">
+		<div class="row">
+			<div class="col-4" style="margin-top: 3px;">
+				<h:commandButton action="login.xhtml?faces-redirect=true"
+					style="text-decoration: none; color: #04bcd1; text-shadow: 0px 0px 10px #04bcd1; font-size: 18px; text-decoration: none; color: #04bcd1; border-color: transparent; background-color: transparent;"
+					value="Log in" />
 			</div>
-			<BR />
-			<div class="form-row">
-				<div class="col-3">
-					<h:outputText for="exampleFormControlh:inputText1" value="DDD" />
-					<h:inputText value="#{signUpController.user.phone.ddd}" type="text"
-						class="form-control" />
-				</div>
-				<div class="col">
-					<h:outputText for="exampleFormControlh:inputText1" value="TELEFONE" />
-					<h:inputText value="#{signUpController.user.phone.number}"
-						type="text" class="form-control" />
-				</div>
+			<div class="col-4">
+				<h:commandButton action="signUp.xhtml?faces-redirect=true"
+					class="btn btn-outline-secondary" value="Sign Up" />
 			</div>
-			<BR />
-			<div class="form-row">
-				<div class="col">
-					<h:outputText value="EMAIL:" />
-					<h:inputText value="#{signUpController.user.email.logIn}"
-						id="itEmail" class="form-control" />
-					<div style="padding-top: 3px;">
-						<h:message class="alert-danger"
-							style="padding: 3px; border-radius: 5px;" for="itEmail" />
-					</div>
-				</div>
-				<div class="col">
-					<h:outputText value="SENHA:" />
-					<h:inputSecret value="#{signUpController.user.email.password}"
-						id="itSenha" class="form-control" />
-					<div style="padding-top: 3px;">
-						<h:message class="alert-danger"
-							style="padding: 3px; border-radius: 5px;" for="itSenha" />
-					</div>
-				</div>
-			</div>
-			<BR />
-			<h:commandButton value="CADASTRAR" type="submit"
-				actionListener="#{signUpController.cadastrar}"
-				class="btn btn-secondary btn-lg btn-block" />
-		</h:form>
-		<BR />
-	</div>
-	<BR />
-	<BR />
-	<div class="card text-center">
-		<div class="card-footer text-muted">
-			Desenvolvimento: John Helder e Vinícius Santos <br /> Forum Master -
-			©2019
 		</div>
-	</div>
-</h:body>
-</html>
+	</ui:define>
+
+	<ui:define name="content">
+		<div class="container shadow-lg p-4 mb-6 bg-white rounded-lg"
+			style="width: 50%; margin-top: 2%;">
+			<BR />
+
+			<h:messages globalOnly="true" class="alert alert-danger" />
+			<h:form>
+				<div class="row">
+					<div class="col">
+						<h:outputText for="exampleFormControlh:inputText1" value="NOME" />
+						<h:inputText value="#{signUpController.user.name}" id="itNome"
+							type="text" class="form-control" />
+						<div style="padding-top: 3px;">
+							<h:message class="alert-danger"
+								style="padding: 3px; border-radius: 5px;" for="itNome" />
+						</div>
+
+					</div>
+					<div class="col">
+						<h:outputText for="exampleFormControlh:inputText1" value="NICK" />
+						<h:inputText value="#{signUpController.user.nick}" id="itNick"
+							type="text" class="form-control" />
+						<div style="padding-top: 3px;">
+							<h:message class="alert-danger"
+								style="padding: 3px; border-radius: 5px;" for="itNick" />
+						</div>
+					</div>
+				</div>
+				<BR />
+				<div class="form-row">
+					<div class="col-3">
+						<h:outputText for="exampleFormControlh:inputText1" value="DDD" />
+						<h:inputText value="#{signUpController.user.phone.ddd}"
+							type="text" class="form-control" />
+					</div>
+					<div class="col">
+						<h:outputText for="exampleFormControlh:inputText1"
+							value="TELEFONE" />
+						<h:inputText value="#{signUpController.user.phone.number}"
+							type="text" class="form-control" />
+					</div>
+				</div>
+				<BR />
+				<div class="form-row">
+					<div class="col">
+						<h:outputText value="EMAIL:" />
+						<h:inputText value="#{signUpController.user.email.logIn}"
+							id="itEmail" class="form-control" />
+						<div style="padding-top: 3px;">
+							<h:message class="alert-danger"
+								style="padding: 3px; border-radius: 5px;" for="itEmail" />
+						</div>
+					</div>
+					<div class="col">
+						<h:outputText value="SENHA:" />
+						<h:inputSecret value="#{signUpController.user.email.password}"
+							id="itSenha" class="form-control" />
+						<div style="padding-top: 3px;">
+							<h:message class="alert-danger"
+								style="padding: 3px; border-radius: 5px;" for="itSenha" />
+						</div>
+					</div>
+				</div>
+				<BR />
+				<h:commandButton value="CADASTRAR" type="submit"
+					actionListener="#{signUpController.cadastrar}"
+					class="btn btn-secondary btn-lg btn-block" />
+			</h:form>
+			<BR />
+		</div>
+	</ui:define>
+</ui:composition>

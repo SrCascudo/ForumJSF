@@ -27,15 +27,6 @@ public class SecurityFilter implements Filter {
 		String endereco = servletRequest.getRequestURI();
 		System.out.println(endereco);// IMPRIME ENDEROÇO DA PAGINA
 
-		// --------------------------------------------------------
-		// ----- SE A URL ACESSADA FOR LOGIN LIBERA O ACESSO ------
-		if (endereco.equals("/Lavajato/faces/login.xhtml")) {
-			chain.doFilter(request, response);
-			return;
-		}
-		// ---------------------------------------------------------
-		// ---------------------------------------------------------
-
 		HttpSession session = servletRequest.getSession(false);
 		UserServer usuario = null;
 
@@ -48,7 +39,7 @@ public class SecurityFilter implements Filter {
 		// --------------------------------------------------------
 
 		if (usuario == null) {
-			((HttpServletResponse) response).sendRedirect("/ForumJSF/faces/login.xhtml");
+			((HttpServletResponse) response).sendRedirect("/ForumJSF/faces/home.xhtml");
 		} else {
 			// CONTINUA A EXECUCAO INDO PARA A PAGINA REQUISITADA
 			chain.doFilter(request, response);
