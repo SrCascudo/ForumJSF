@@ -23,6 +23,10 @@ public class Redirect {
 		Util.redirect("comentarios.xhtml");
 	}
 	
+	static public void perfil() {
+		Util.redirect("perfilUser.xhtml");
+	}
+	
 	static public void sair() {
 		Util.redirect("/ForumJSF/faces/login.xhtml");
 		Session.getInstance().invalidateSession();

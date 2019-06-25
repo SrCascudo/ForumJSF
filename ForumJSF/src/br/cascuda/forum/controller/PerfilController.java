@@ -7,6 +7,7 @@ import javax.inject.Named;
 
 import br.cascuda.forum.dao.UserServerDao;
 import br.cascuda.forum.model.UserServer;
+import br.cascuda.forum.util.Session;
 
 @Named
 @RequestScoped
@@ -14,8 +15,10 @@ public class PerfilController {
 	private UserServer user = new UserServer();
 
 	public PerfilController() {
-		Flash flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
-		setUser((UserServer)flash.get("register"));
+		UserServerDao comando = new UserServerDao();
+		user = (UserServer) Session.getInstance().getAttribute("connect");
+		user = comando.takeUserById(user.getId());
+		comando.encerrarConexao();
 	}
 
 	public void alterar() {
