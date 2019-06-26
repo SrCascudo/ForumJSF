@@ -58,14 +58,22 @@
 					<h:outputLabel
 						value="#{comentariosController.publicacao.descricao}" />
 				</h3>
-				<cite title="Data publicado">#{comentariosController.publicacao.quandoPublicado}</cite>
+				<cite title="Momento da Publicação"> 
+					<h:outputText
+						value="#{comentariosController.publicacao.dataPublicado}">
+						<f:convertDateTime type="date" pattern="dd/MM/yyyy" />
+					</h:outputText> as <h:outputText
+						value="#{comentariosController.publicacao.horaPublicado}">
+						<f:convertDateTime type="time" pattern="HH:mm" />
+					</h:outputText>
+				</cite>
 			</div>
 			<hr />
 
 			<br /> <br />
-			<h:form>
+			<h:form id="comentarios">
 				<h:dataTable value="#{comentariosController.comentarios}"
-					style="width: 100%;" var="elemento">
+					style="width: 80%;" var="elemento">
 					<h:column id="name">
 						<div class="media position-relative"
 							style="padding-left: 3%; padding-right: 25%;">
@@ -100,6 +108,9 @@
 								</h:panelGroup>
 							</div>
 						</div>
+						<h:outputText style="magin-left: 5%;"
+							value="#{elemento.dataPublicado} as #{comentariosController.publicacao.horaPublicado}" />
+						<hr />
 						<br />
 					</h:column>
 				</h:dataTable>
@@ -118,7 +129,7 @@
 							actionListener="#{comentariosController.addComentario}"
 							value="Enviar"
 							style="padding-left: 0%; border-radius: 0px 50px 50px 0px;">
-							<f:ajax execute="@all" render="@all" />
+							<f:ajax execute="comentar" render="comentarios" />
 						</h:commandButton>
 					</div>
 				</div>

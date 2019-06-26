@@ -11,6 +11,7 @@ import javax.inject.Named;
 import br.cascuda.forum.dao.PublicacaoDao;
 import br.cascuda.forum.model.Publicacao;
 import br.cascuda.forum.model.UserServer;
+import br.cascuda.forum.redirect.Redirect;
 import br.cascuda.forum.util.Session;
 
 @Named
@@ -25,22 +26,26 @@ public class ComentariosController {
 
 	public ComentariosController() {
 		// TODO Auto-generated constructor stub
-		Flash flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
-		publicacao = (Publicacao) Session.getInstance().getAttribute("publicacao");
 		PublicacaoDao comando = new PublicacaoDao();
-		comentarios = comando.takeComentarios(publicacao.getId());
+		Flash flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
+		if ((Publicacao) Session.getInstance().getAttribute("publicacao") != null) {
+			publicacao = (Publicacao) Session.getInstance().getAttribute("publicacao");
+			comentarios = comando.takeComentarios(publicacao.getId());
+			comando.encerrarConexao();
+		}
 		flash.keep("comentario");
 		comentarioEdit = (Publicacao) flash.get("comentario");
-		comando.encerrarConexao();
 	}
 
 	public void addComentario() {
-		System.out.println("Add Comentario");
 		PublicacaoDao comando = new PublicacaoDao();
 		UserServer user = (UserServer) Session.getInstance().getAttribute("connect");
-
-		comando.criarComentario(getComentario(), getPublicacao().getId(), user.getId());
-		setComentarios(comando.takeComentarios(publicacao.getId()));
+		if (user != null) {
+			comando.criarComentario(getComentario(), getPublicacao().getId(), user.getId());
+			setComentarios(comando.takeComentarios(publicacao.getId()));
+		} else {
+			Redirect.signUp();
+		}
 	}
 
 	public void editarComentario(Publicacao publicacao) {
@@ -48,7 +53,7 @@ public class ComentariosController {
 		PublicacaoDao comando = new PublicacaoDao();
 		comando.atualizarComentario(publicacao);
 	}
-
+	
 	public boolean isEdit(Publicacao publicacao) {
 		if (getComentarioEdit() != null) {
 			if (publicacao.getId() == getComentarioEdit().getId()) {

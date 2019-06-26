@@ -11,40 +11,22 @@
 	<div class="container">
 		<H1>Registro de Atividade</H1>
 		<BR />
-		<h:form>
-			<div class="row">
-				<div class="col">
-					<h:inputText value="#{consultaController.buscarApartirData}"
-						class="form-control">
-						<f:convertDateTime type="localDate" pattern="dd/MM/yyyy" />
-					</h:inputText>
-				</div>
-				<div class="col">
-					<h:commandButton class="btn btn-secondary" value="BUSCAR"
-						actionListener="#{consultaController.pesquisar}">
-
-						<f:ajax execute="@form" render="busca" />
-					</h:commandButton>
-				</div>
-			</div>
-		</h:form>
-		<BR /> <BR />
 
 		<h:form class="table" id="busca">
 			<h:dataTable class="thead-dark table-striped col"
 				value="#{consultaController.publicacoes}" var="elemento">
 				<h:column>
 					<f:facet name="header">Tipo</f:facet>
-					<h:outputLabel value="Publicação" />
+					<h:outputLabel value="#{elemento.tipo.label}" />
 				</h:column>
 				<h:column>
 					<f:facet name="header">Descricao</f:facet>
-					<h:outputText value="Você publicou: #{elemento.descricao}" />
+					<h:outputText value="#{elemento.descricao}" />
 				</h:column>
 				<h:column id="name">
 					<f:facet name="header">Data</f:facet>
-					<h:outputText value="#{elemento.quandoPublicado}">
-						<f:convertDateTime type="localDate" pattern="dd/MM/yyyy" />
+					<h:outputText value="#{elemento.dataPublicado}">
+						<f:convertDateTime type="date" pattern="dd/MM/yyyy" />
 					</h:outputText>
 				</h:column>
 				<h:column>
@@ -58,7 +40,7 @@
 						actionListener="#{consultaController.delete(elemento)}" value=" "
 						style="border: 0px; background-color: transparent;">
 						<h:graphicImage width="15%" library="image" name="delete.png" />
-						<f:ajax execute="@this" render="busca" />
+						<f:ajax execute="@form" render="@form" />
 					</h:commandLink>
 				</h:column>
 			</h:dataTable>

@@ -20,11 +20,15 @@ public class Redirect {
 	}
 	
 	static public void comentarios() {
-		Util.redirect("comentarios.xhtml");
+		Util.redirect("/ForumJSF/faces/comentarios.xhtml");
 	}
 	
 	static public void perfil() {
 		Util.redirect("/ForumJSF/faces/pages/perfilUser.xhtml");
+	}
+	
+	static public void signUp() {
+		Util.redirect("/ForumJSF/faces/signUp.xhtml");
 	}
 	
 	static public void sair() {

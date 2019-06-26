@@ -1,9 +1,9 @@
 package br.cascuda.forum.dao;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import br.cascuda.forum.model.Publicacao;
@@ -19,8 +19,8 @@ public class PublicacaoDao extends Dao<Publicacao> {
 
 	public void criarComentario(Publicacao publicacao, int publicacaoReferente , int client) {
 		try {
-			stat = conn.prepareStatement(" INSERT INTO comentarios (idpublicacao , client , descricao , data_publicado) "
-									   + " VALUES (? , ? , ? , (select current_date) ) ");
+			stat = conn.prepareStatement(" INSERT INTO comentarios (idpublicacao , client , descricao , data_publicado , hora_publicado) "
+									   + " VALUES (? , ? , ? , (select current_date) , (select current_time(0)) ) ");
 			stat.setInt(1, publicacaoReferente);
 			stat.setInt(2, client);
 			stat.setString(3, publicacao.getDescricao());
@@ -34,8 +34,8 @@ public class PublicacaoDao extends Dao<Publicacao> {
 	public void publicar(Publicacao obj, int id) {
 		
 		try {
-			stat = conn.prepareStatement(" INSERT INTO publicacoes ( descricao , data_publicado , client ) "
-									    +" VALUES ( ? , (select current_date) , ?) ");
+			stat = conn.prepareStatement(" INSERT INTO publicacoes ( descricao , data_publicado , client , hora_publicado) "
+									    +" VALUES ( ? , (select current_date) , ? , (select current_time(0)) ) ");
 			stat.setString(1, obj.getDescricao());
 			stat.setInt(2, id);
 			
@@ -55,7 +55,9 @@ public class PublicacaoDao extends Dao<Publicacao> {
 	public void atualizarComentario(Publicacao publicacao) {
 		try {
 			stat = conn.prepareStatement(" UPDATE comentarios " 
-									    +" SET descricao = ? "
+									    +" SET descricao = ? , "
+									    +" data_publicado = (select current_date) ,"
+									    +" hora_publicado = (select current_time(0)) "
 										+" WHERE idcomentario = ? ");
 			stat.setString(1, publicacao.getDescricao());
 			stat.setInt(2, publicacao.getId());
@@ -67,11 +69,31 @@ public class PublicacaoDao extends Dao<Publicacao> {
 	}
 	
 	@Override
-	void delete(Publicacao obj) {
+	public void delete(Publicacao obj) {
 		// TODO Auto-generated method stub
-		
+		try {
+			stat = conn.prepareStatement(" DELETE FROM publicacoes"
+									   + " WHERE idpublicacao = ? ");
+			stat.setInt(1, obj.getId());
+			stat.execute();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
+	public void deleteComentario(int id) {
+		try {
+			stat = conn.prepareStatement(" DELETE FROM comentarios "
+									   + " WHERE idcomentario = ? ");
+			stat.setInt(1, id);
+			stat.execute();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	@Override
 	public List<Publicacao> registry() {
 		List<Publicacao> publicacoes = new ArrayList<Publicacao>();
@@ -80,11 +102,13 @@ public class PublicacaoDao extends Dao<Publicacao> {
 			stat = conn.prepareStatement("select * from publicacoes");
 			resultado = stat.executeQuery();
 			while (resultado.next()) {
+				
 				Publicacao publicacao = new Publicacao();
 				publicacao.setDescricao(resultado.getString("descricao"));
 				publicacao.setNickQuemPublicou(takeNickUser(resultado.getInt("client")));
 				publicacao.setId(resultado.getInt("idpublicacao"));
-				publicacao.setQuandoPublicado(resultado.getDate("data_publicado").toLocalDate());
+				publicacao.setDataPublicado(resultado.getDate("data_publicado"));
+				publicacao.setHoraPublicado(resultado.getTime("hora_publicado"));
 				publicacao.setTipo(TipoPublicacao.QUESTAO);
 				publicacoes.add(publicacao);
 			}
@@ -128,7 +152,8 @@ public class PublicacaoDao extends Dao<Publicacao> {
 				publicacao.setId(resultado.getInt("idcomentario"));
 				publicacao.setDescricao(resultado.getString("descricao"));
 				publicacao.setNickQuemPublicou(takeNickUser(resultado.getInt("client")));
-				publicacao.setQuandoPublicado(resultado.getDate("data_publicado").toLocalDate());
+				publicacao.setDataPublicado(resultado.getDate("data_publicado"));
+				publicacao.setHoraPublicado(resultado.getTime("hora_publicado"));
 				publicacao.setTipo(TipoPublicacao.COMENTARIO);
 				publicacoes.add(publicacao);
 			}
@@ -164,7 +189,8 @@ public class PublicacaoDao extends Dao<Publicacao> {
 				publicacao.setDescricao(result.getString("descricao"));
 				publicacao.setNickQuemPublicou(takeNickUser(result.getInt("client")));
 				publicacao.setId(result.getInt("idpublicacao"));
-				publicacao.setQuandoPublicado(result.getDate("data_publicado").toLocalDate());
+				publicacao.setDataPublicado(result.getDate("data_publicado"));
+				publicacao.setHoraPublicado(result.getTime("hora_publicado"));
 				publicacao.setTipo(TipoPublicacao.QUESTAO);
 				publicacoes.add(publicacao);
 				if (takeComentarios(publicacao.getId()) != null) {
@@ -196,7 +222,8 @@ public class PublicacaoDao extends Dao<Publicacao> {
 				publicacao.setDescricao(result.getString("descricao"));
 				publicacao.setNickQuemPublicou(takeNickUser(result.getInt("client")));
 				publicacao.setId(result.getInt("idpublicacao"));
-				publicacao.setQuandoPublicado(result.getDate("data_publicado").toLocalDate());
+				publicacao.setDataPublicado(result.getDate("data_publicado"));
+				publicacao.setHoraPublicado(result.getTime("hora_publicado"));
 				publicacoes.add(publicacao);
 			}
 			return publicacoes;
@@ -222,6 +249,30 @@ public class PublicacaoDao extends Dao<Publicacao> {
 				}
 			}
 			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public List<Publicacao> publicacaoByDate(Date date) {
+		ResultSet result;
+		List<Publicacao> publicacoes = new ArrayList<Publicacao>();
+		try {
+			stat = conn.prepareStatement("select * from publicacoes where data_publicado >= ? ");
+			stat.setDate(1, date);
+			result = stat.executeQuery();
+			while(result.next()) {
+				Publicacao publicacao = new Publicacao();
+				publicacao.setDescricao(result.getString("descricao"));
+				publicacao.setNickQuemPublicou(takeNickUser(result.getInt("client")));
+				publicacao.setId(result.getInt("idpublicacao"));
+				publicacao.setDataPublicado(result.getDate("data_publicado"));
+				publicacao.setHoraPublicado(result.getTime("hora_publicado"));
+				publicacoes.add(publicacao);
+			}
+			return publicacoes;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -21,35 +21,53 @@ public class HomeController {
 	private List<Publicacao> publicacoes = getComando().registry();
 	private Publicacao textoPublicar = new Publicacao();
 	private Boolean connected = null;
-	Comparator<Publicacao> comparator = new Comparator<Publicacao>() {
-		@Override
-		public int compare(Publicacao o1, Publicacao o2) {
-			return o2.getQuandoPublicado().compareTo(o1.getQuandoPublicado());
-		}
-	};
 
 	public HomeController() {
 		super();
-		Collections.sort(publicacoes, comparator);
+		
 		connectUser = (UserServer) Session.getInstance().getAttribute("connect");
 		if (connectUser == null) {
 			connected = false;
-			System.out.println("falso");
 		} else {
 			connected = true;
-			System.out.println("verdadeiro");
 		}
+		
+		ordenarLista();
 	}
 
+	public void ordenarLista() {
+		Comparator<Publicacao> ordenarPorData = new Comparator<Publicacao>() {
+			@Override
+			public int compare(Publicacao o1, Publicacao o2) {
+				return o2.getDataPublicado().compareTo(o1.getDataPublicado());
+			}
+		};
+		
+		Comparator<Publicacao> ordenarPorHora = new Comparator<Publicacao>() {
+			@Override
+			public int compare(Publicacao o1, Publicacao o2) {
+				// TODO Auto-generated method stub
+				return o2.getHoraPublicado().compareTo(o1.getHoraPublicado());
+			}
+		};
+		
+		Collections.sort(publicacoes, ordenarPorHora);
+		Collections.sort(publicacoes, ordenarPorData);
+	}
+	
 	public void redirectPergunta(Publicacao publicacao) {
 		Session.getInstance().setAttribute("publicacao", publicacao);
 		Redirect.comentarios();
 	}
 
 	public void publicar() {
-		comando.publicar(getTextoPublicar(), getConnectUser().getId());
-		setPublicacoes(comando.registry());
-		Collections.sort(publicacoes, comparator);
+		if (connected) {
+			comando.publicar(getTextoPublicar(), getConnectUser().getId());
+			setPublicacoes(comando.registry());
+			ordenarLista();
+		} else {
+			Redirect.signUp();
+		}
 	}
 
 	public PublicacaoDao getComando() {

@@ -1,21 +1,20 @@
 package br.cascuda.forum.controller;
 
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.context.Flash;
-import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
 import br.cascuda.forum.dao.PublicacaoDao;
 import br.cascuda.forum.model.Publicacao;
+import br.cascuda.forum.model.TipoPublicacao;
 import br.cascuda.forum.model.UserServer;
 import br.cascuda.forum.redirect.Redirect;
 import br.cascuda.forum.util.Session;
@@ -27,12 +26,11 @@ public class ConsultaController implements Serializable {
 
 	private static final long serialVersionUID = -1905862185158065738L;
 	private UserServer connectUser = new UserServer();
-	private LocalDate buscarApartirData = null;
 	private List<Publicacao> publicacoes = new ArrayList<Publicacao>();
 	Comparator<Publicacao> comparator = new Comparator<Publicacao>() {
 		@Override
 		public int compare(Publicacao o1, Publicacao o2) {
-			return o2.getQuandoPublicado().compareTo(o1.getQuandoPublicado());
+			return o2.getDataPublicado().compareTo(o1.getDataPublicado());
 		}
 	};
 
@@ -56,19 +54,14 @@ public class ConsultaController implements Serializable {
 		Redirect.comentarios();
 	}
 
-	public void delete(Publicacao user) {
-
-	}
-
-	public void pesquisar() {
+	public void delete(Publicacao publicacao) {
 		PublicacaoDao comando = new PublicacaoDao();
-		if (getBuscarApartirData() != null) {
-
+		if (publicacao.getTipo() == TipoPublicacao.COMENTARIO) {
+			comando.deleteComentario(publicacao.getId());
 		} else {
-			setPublicacoes(comando.takePublicaoUser(getConnectUser().getId()));
-			comando.encerrarConexao();
-			Collections.sort(getPublicacoes(), comparator);
+			comando.delete(publicacao);
 		}
+		setPublicacoes(comando.takePublicaoUser(getConnectUser().getId()));
 	}
 
 	public void sair() {
@@ -82,14 +75,6 @@ public class ConsultaController implements Serializable {
 
 	public void setPublicacoes(List<Publicacao> publicacoes) {
 		this.publicacoes = publicacoes;
-	}
-
-	public LocalDate getBuscarApartirData() {
-		return buscarApartirData;
-	}
-
-	public void setBuscarApartirData(LocalDate buscarApartirData) {
-		this.buscarApartirData = buscarApartirData;
 	}
 
 	public UserServer getConnectUser() {

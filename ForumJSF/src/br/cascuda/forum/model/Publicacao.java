@@ -1,12 +1,16 @@
 package br.cascuda.forum.model;
 
-import java.time.LocalDate;
+import java.sql.Time;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Publicacao {
 	private Integer id;
 	private String nickQuemPublicou;
 	private String descricao;
-	private LocalDate quandoPublicado;
+	private Date dataPublicado;
+	private Time horaPublicado;
 	private TipoPublicacao tipo;
 
 	public int getId() {
@@ -42,12 +46,20 @@ public class Publicacao {
 		this.descricao = descricao;
 	}
 
-	public LocalDate getQuandoPublicado() {
-		return quandoPublicado;
+	public Date getDataPublicado() {
+		return dataPublicado;
 	}
 
-	public void setQuandoPublicado(LocalDate quandoPublicado) {
-		this.quandoPublicado = quandoPublicado;
+	public void setDataPublicado(Date dataPublicado) {
+		this.dataPublicado = dataPublicado;
+	}
+
+	public Time getHoraPublicado() {
+		return horaPublicado;
+	}
+
+	public void setHoraPublicado(Time horaPublicado) {
+		this.horaPublicado = horaPublicado;
 	}
 
 }

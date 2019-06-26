@@ -80,8 +80,15 @@
 								action="#{homeController.redirectPergunta(elemento)}" />
 						</h3>
 						<cite style="margin-left: 1%; padding-top: 1%;"
-							title="#{elemento.quandoPublicado}">
-							#{elemento.quandoPublicado} </cite>
+							title="Quando Publicado"> 
+							<h:outputText
+								value="#{elemento.dataPublicado}">
+								<f:convertDateTime type="date" pattern="dd/MM/yyyy" />
+							</h:outputText> as <h:outputText
+								value="#{elemento.horaPublicado}">
+								<f:convertDateTime type="time" pattern="HH:mm" />
+							</h:outputText>
+						</cite>
 					</div>
 				</h:column>
 			</h:dataTable>
