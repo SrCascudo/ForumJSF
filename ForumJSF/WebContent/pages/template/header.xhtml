@@ -14,13 +14,13 @@
 						<li class="nav-item"><h:commandButton class="nav-link"
 								actionListener="#{redirect.home}" value="Home"
 								style="text-decoration: none; color: #04bcd1; border-color: transparent; background-color: transparent;" /></li>
-						<li class="nav-item"><h:commandButton class="nav-link"
+						<li class="nav-item">
+						<ui:insert name="quemSomos">
+						<h:commandButton class="nav-link"
 								actionListener="#{redirect.quemSomos}" value="Quem Somos"
-								style="text-decoration: none; color: #04bcd1; border-color: transparent; background-color: transparent;" /></li>
-
-						<li class="nav-item"><h:commandButton class="nav-link"
-								value="Feed-Back"
-								style="text-decoration: none; color: #04bcd1; border-color: transparent; background-color: transparent;" /></li>
+								style="text-decoration: none; color: #04bcd1; border-color: transparent; background-color: transparent;" />
+						</ui:insert>
+						</li>
 					</ul>
 				</div>
 

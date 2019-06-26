@@ -1,8 +1,6 @@
 package br.cascuda.forum.model;
 
-import java.sql.Time;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.Date;
 
 public class Publicacao {
@@ -10,7 +8,7 @@ public class Publicacao {
 	private String nickQuemPublicou;
 	private String descricao;
 	private Date dataPublicado;
-	private Time horaPublicado;
+	private LocalTime horaPublicado;
 	private TipoPublicacao tipo;
 
 	public int getId() {
@@ -54,11 +52,11 @@ public class Publicacao {
 		this.dataPublicado = dataPublicado;
 	}
 
-	public Time getHoraPublicado() {
+	public LocalTime getHoraPublicado() {
 		return horaPublicado;
 	}
 
-	public void setHoraPublicado(Time horaPublicado) {
+	public void setHoraPublicado(LocalTime horaPublicado) {
 		this.horaPublicado = horaPublicado;
 	}
 

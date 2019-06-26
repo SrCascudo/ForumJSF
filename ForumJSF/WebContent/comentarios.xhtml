@@ -7,6 +7,12 @@
 
 	<ui:define name="title">#{comentariosController.publicacao.descricao}</ui:define>
 
+	<ui:define name="quemSomos">
+		<h:commandButton class="nav-link"
+			action="quemSomos.xhtml?faces-redirect=true" value="Quem Somos"
+			style="text-decoration: none; color: #04bcd1; border-color: transparent; background-color: transparent;" />
+	</ui:define>
+	
 	<ui:define name="opUser">
 		<h:panelGroup rendered="#{homeController.connected}">
 			<div class="row">
@@ -58,13 +64,12 @@
 					<h:outputLabel
 						value="#{comentariosController.publicacao.descricao}" />
 				</h3>
-				<cite title="Momento da Publicação"> 
-					<h:outputText
+				<cite title="Momento da Publicação"> <h:outputText
 						value="#{comentariosController.publicacao.dataPublicado}">
 						<f:convertDateTime type="date" pattern="dd/MM/yyyy" />
 					</h:outputText> as <h:outputText
 						value="#{comentariosController.publicacao.horaPublicado}">
-						<f:convertDateTime type="time" pattern="HH:mm" />
+						<f:convertDateTime type="localTime" pattern="HH:mm" />
 					</h:outputText>
 				</cite>
 			</div>
@@ -108,8 +113,11 @@
 								</h:panelGroup>
 							</div>
 						</div>
-						<h:outputText style="magin-left: 5%;"
-							value="#{elemento.dataPublicado} as #{comentariosController.publicacao.horaPublicado}" />
+						<h:outputText value="#{elemento.dataPublicado}">
+							<f:convertDateTime type="date" pattern="dd/MM/yyyy" />
+						</h:outputText> as <h:outputText value="#{elemento.horaPublicado}">
+							<f:convertDateTime type="localTime" pattern="HH:mm" />
+						</h:outputText>
 						<hr />
 						<br />
 					</h:column>
@@ -129,13 +137,14 @@
 							actionListener="#{comentariosController.addComentario}"
 							value="Enviar"
 							style="padding-left: 0%; border-radius: 0px 50px 50px 0px;">
-							<f:ajax execute="comentar" render="comentarios" />
+							<f:ajax execute="comentar" render="comentarios comentar" />
 						</h:commandButton>
 					</div>
 				</div>
 			</h:form>
 		</div>
 		<br />
+		<br /><br />
 		<br />
 	</ui:define>
 </ui:composition>

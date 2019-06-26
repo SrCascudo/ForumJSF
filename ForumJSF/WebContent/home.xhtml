@@ -46,9 +46,15 @@
 		</h:panelGroup>
 	</ui:define>
 
+	<ui:define name="quemSomos">
+		<h:commandButton class="nav-link"
+			action="quemSomos.xhtml?faces-redirect=true" value="Quem Somos"
+			style="text-decoration: none; color: #04bcd1; border-color: transparent; background-color: transparent;" />
+	</ui:define>
+
 	<ui:define name="content">
 		<h:form>
-			<div class="form-group" style="margin-left: 5%; width: 45%;">
+			<div class="form-group" style="margin-left: 10%; width: 45%;">
 				<label for="exampleFormControlTextarea1" style="color: green;">Post
 					Rápido</label>
 				<h:inputTextarea class="form-control" id="post" rows="8"
@@ -57,7 +63,7 @@
 				<br />
 				<h:commandButton style="margin-left:87%;" value="ENVIAR"
 					actionListener="#{homeController.publicar}">
-					<f:ajax execute="@form" render="publicacoes" />
+					<f:ajax execute="@form" render="@all" />
 				</h:commandButton>
 			</div>
 		</h:form>
@@ -80,18 +86,19 @@
 								action="#{homeController.redirectPergunta(elemento)}" />
 						</h3>
 						<cite style="margin-left: 1%; padding-top: 1%;"
-							title="Quando Publicado"> 
-							<h:outputText
+							title="Quando Publicado"> <h:outputText
 								value="#{elemento.dataPublicado}">
 								<f:convertDateTime type="date" pattern="dd/MM/yyyy" />
-							</h:outputText> as <h:outputText
-								value="#{elemento.horaPublicado}">
-								<f:convertDateTime type="time" pattern="HH:mm" />
+							</h:outputText> as <h:outputText value="#{elemento.horaPublicado}">
+								<f:convertDateTime type="localTime" pattern="HH:mm" />
 							</h:outputText>
 						</cite>
 					</div>
 				</h:column>
 			</h:dataTable>
 		</h:form>
+		<br />
+		<br />
+		<br />
 	</ui:define>
 </ui:composition>

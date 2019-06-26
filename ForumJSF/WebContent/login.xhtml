@@ -7,6 +7,12 @@
 
 	<ui:define name="title">Log In</ui:define>
 
+	<ui:define name="quemSomos">
+		<h:commandButton class="nav-link"
+			action="quemSomos.xhtml?faces-redirect=true" value="Quem Somos"
+			style="text-decoration: none; color: #04bcd1; border-color: transparent; background-color: transparent;" />
+	</ui:define>
+	
 	<ui:define name="opUser">
 		<div class="row">
 			<div class="col-4" style="margin-top: 3px;">
@@ -15,8 +21,7 @@
 					value="Log in" />
 			</div>
 			<div class="col-4">
-				<h:commandButton
-					action="signUp.xhtml?faces-redirect=true"
+				<h:commandButton action="signUp.xhtml?faces-redirect=true"
 					class="btn btn-outline-secondary" value="Sign Up" />
 			</div>
 		</div>
@@ -34,7 +39,10 @@
 							<h:inputText value="#{logInController.access.logIn}" id="itEmail"
 								class="form-control" type="email" />
 						</div>
-						<h:message for="itEmail" />
+						<div style="padding-top: 3px;">
+							<h:message class="alert-danger"
+								style="padding: 3px; border-radius: 5px;" for="itEmail" />
+						</div>
 
 						<BR />
 						<div class="col">
@@ -50,5 +58,12 @@
 				</h:form>
 			</div>
 		</div>
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
 	</ui:define>
 </ui:composition>

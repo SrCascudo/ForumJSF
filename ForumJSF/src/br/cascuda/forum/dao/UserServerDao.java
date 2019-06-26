@@ -6,7 +6,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.cascuda.forum.model.Email;
+import br.cascuda.forum.model.EmailAcess;
 import br.cascuda.forum.model.Phone;
 import br.cascuda.forum.model.UserServer;
 
@@ -129,7 +129,7 @@ public class UserServerDao extends Dao<UserServer> {
 		return null;
 	}
 
-	private Email takeEmail(int id) {
+	private EmailAcess takeEmail(int id) {
 		ResultSet result;
 		try {
 			stat = conn.prepareStatement("SELECT * FROM email WHERE owner = ?");
@@ -137,7 +137,7 @@ public class UserServerDao extends Dao<UserServer> {
 			result = stat.executeQuery();
 
 			while (result.next()) {
-				Email email = new Email();
+				EmailAcess email = new EmailAcess();
 				email.setLogIn(result.getString("login"));
 				email.setPassword(result.getString("password"));
 				return email;

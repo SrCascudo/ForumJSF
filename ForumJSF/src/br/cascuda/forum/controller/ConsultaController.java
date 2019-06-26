@@ -27,20 +27,34 @@ public class ConsultaController implements Serializable {
 	private static final long serialVersionUID = -1905862185158065738L;
 	private UserServer connectUser = new UserServer();
 	private List<Publicacao> publicacoes = new ArrayList<Publicacao>();
-	Comparator<Publicacao> comparator = new Comparator<Publicacao>() {
-		@Override
-		public int compare(Publicacao o1, Publicacao o2) {
-			return o2.getDataPublicado().compareTo(o1.getDataPublicado());
-		}
-	};
-
+	
 	public ConsultaController() {
 		PublicacaoDao comando = new PublicacaoDao();
 		connectUser = (UserServer) Session.getInstance().getAttribute("connect");
 		publicacoes = comando.takePublicaoUser(getConnectUser().getId());
-		Collections.sort(getPublicacoes(), comparator);
+		ordenarLista();
 	}
 
+	public void ordenarLista() {
+		Comparator<Publicacao> ordenarPorData = new Comparator<Publicacao>() {
+			@Override
+			public int compare(Publicacao o1, Publicacao o2) {
+				return o2.getDataPublicado().compareTo(o1.getDataPublicado());
+			}
+		};
+		
+		Comparator<Publicacao> ordenarPorHora = new Comparator<Publicacao>() {
+			@Override
+			public int compare(Publicacao o1, Publicacao o2) {
+				// TODO Auto-generated method stub
+				return o2.getHoraPublicado().compareTo(o1.getHoraPublicado());
+			}
+		};
+		
+		Collections.sort(publicacoes, ordenarPorHora);
+		Collections.sort(publicacoes, ordenarPorData);
+	}
+	
 	public void edit(Publicacao publicacao) {
 		PublicacaoDao comando = new PublicacaoDao();
 

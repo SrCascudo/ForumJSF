@@ -108,7 +108,7 @@ public class PublicacaoDao extends Dao<Publicacao> {
 				publicacao.setNickQuemPublicou(takeNickUser(resultado.getInt("client")));
 				publicacao.setId(resultado.getInt("idpublicacao"));
 				publicacao.setDataPublicado(resultado.getDate("data_publicado"));
-				publicacao.setHoraPublicado(resultado.getTime("hora_publicado"));
+				publicacao.setHoraPublicado(resultado.getTime("hora_publicado").toLocalTime());
 				publicacao.setTipo(TipoPublicacao.QUESTAO);
 				publicacoes.add(publicacao);
 			}
@@ -153,7 +153,7 @@ public class PublicacaoDao extends Dao<Publicacao> {
 				publicacao.setDescricao(resultado.getString("descricao"));
 				publicacao.setNickQuemPublicou(takeNickUser(resultado.getInt("client")));
 				publicacao.setDataPublicado(resultado.getDate("data_publicado"));
-				publicacao.setHoraPublicado(resultado.getTime("hora_publicado"));
+				publicacao.setHoraPublicado(resultado.getTime("hora_publicado").toLocalTime());
 				publicacao.setTipo(TipoPublicacao.COMENTARIO);
 				publicacoes.add(publicacao);
 			}
@@ -190,7 +190,7 @@ public class PublicacaoDao extends Dao<Publicacao> {
 				publicacao.setNickQuemPublicou(takeNickUser(result.getInt("client")));
 				publicacao.setId(result.getInt("idpublicacao"));
 				publicacao.setDataPublicado(result.getDate("data_publicado"));
-				publicacao.setHoraPublicado(result.getTime("hora_publicado"));
+				publicacao.setHoraPublicado(result.getTime("hora_publicado").toLocalTime());
 				publicacao.setTipo(TipoPublicacao.QUESTAO);
 				publicacoes.add(publicacao);
 				if (takeComentarios(publicacao.getId()) != null) {
@@ -223,7 +223,7 @@ public class PublicacaoDao extends Dao<Publicacao> {
 				publicacao.setNickQuemPublicou(takeNickUser(result.getInt("client")));
 				publicacao.setId(result.getInt("idpublicacao"));
 				publicacao.setDataPublicado(result.getDate("data_publicado"));
-				publicacao.setHoraPublicado(result.getTime("hora_publicado"));
+				publicacao.setHoraPublicado(result.getTime("hora_publicado").toLocalTime());
 				publicacoes.add(publicacao);
 			}
 			return publicacoes;
@@ -269,7 +269,7 @@ public class PublicacaoDao extends Dao<Publicacao> {
 				publicacao.setNickQuemPublicou(takeNickUser(result.getInt("client")));
 				publicacao.setId(result.getInt("idpublicacao"));
 				publicacao.setDataPublicado(result.getDate("data_publicado"));
-				publicacao.setHoraPublicado(result.getTime("hora_publicado"));
+				publicacao.setHoraPublicado(result.getTime("hora_publicado").toLocalTime());
 				publicacoes.add(publicacao);
 			}
 			return publicacoes;

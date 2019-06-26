@@ -7,6 +7,51 @@
 
 	<ui:define name="title">Quem Somos</ui:define>
 
+	<ui:define name="opUser">
+		<h:panelGroup rendered="#{homeController.connected}">
+			<div class="row">
+				<div class="btn-group">
+					<button type="button"
+						style="margin-right: 1cm; border: 0px; background-color: transparent;"
+						class="btn dropdown-toggle" data-toggle="dropdown"
+						aria-haspopup="true" aria-expanded="false">
+						<h:graphicImage width="50%" library="image" name="userRoot.png" />
+					</button>
+					<div style="margin-right: 1cm;"
+						class="dropdown-menu dropdown-menu-right">
+						<h:commandLink class="dropdown-item" value="Perfil"
+							actionListener="#{redirect.perfil}" />
+						<h:commandLink actionListener="#{redirect.consulta}"
+							class="dropdown-item" value="Registro de Atividade" />
+						<div class="dropdown-divider"></div>
+						<h:commandLink class="dropdown-item" action="#{redirect.sair}"
+							value="Sair" />
+					</div>
+				</div>
+			</div>
+		</h:panelGroup>
+
+		<h:panelGroup rendered="#{homeController.connected == false}">
+			<div class="row">
+				<div class="col-4" style="margin-top: 3px;">
+					<h:commandButton action="login.xhtml?faces-redirect=true"
+						style="text-decoration: none; color: #04bcd1; text-shadow: 0px 0px 10px #04bcd1; font-size: 18px; text-decoration: none; color: #04bcd1; border-color: transparent; background-color: transparent;"
+						value="Log in" />
+				</div>
+				<div class="col-4">
+					<h:commandButton action="signUp.xhtml?faces-redirect=true"
+						class="btn btn-outline-secondary" value="Sign Up" />
+				</div>
+			</div>
+		</h:panelGroup>
+	</ui:define>
+
+	<ui:define name="quemSomos">
+		<h:commandButton class="nav-link"
+			action="quemSomos.xhtml?faces-redirect=true" value="Quem Somos"
+			style="text-decoration: none; color: #04bcd1; border-color: transparent; background-color: transparent;" />
+	</ui:define>
+
 	<ui:define name="content">
 
 		<div class="row elemento">
@@ -32,7 +77,7 @@
 					<div class="row">
 						<div class="col-lg-6 container">
 							<h:graphicImage library="image" name="vinicius.jpg"
-								class="imgPerfilJohn" /> <!-- NAVEGADOR COM CACHE CLASS CORRETA "imgDev" -->
+								class="imgPerfilJohn" />
 						</div>
 					</div>
 					<div class="row">

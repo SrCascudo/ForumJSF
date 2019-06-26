@@ -43,6 +43,7 @@ public class ComentariosController {
 		if (user != null) {
 			comando.criarComentario(getComentario(), getPublicacao().getId(), user.getId());
 			setComentarios(comando.takeComentarios(publicacao.getId()));
+			setComentario(null);
 		} else {
 			Redirect.signUp();
 		}

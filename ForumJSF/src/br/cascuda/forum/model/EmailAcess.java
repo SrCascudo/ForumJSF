@@ -1,13 +1,17 @@
 package br.cascuda.forum.model;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
-public class Email {
+public class EmailAcess {
 
-	@javax.validation.constraints.Email(message = "Insira seu Email")
+	@NotEmpty(message = "Insira seu Email")
+	@Email(message="Insira email Válido")
 	private String logIn;
 	
 	@NotEmpty(message = "Insira sua senha")
+	@Size(message = "A senha deve ter de 6 a 15 caracteres" , max = 15 , min = 6)
 	private String password;
 	public String getLogIn() {
 		return logIn;

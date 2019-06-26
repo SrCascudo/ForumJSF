@@ -4,16 +4,15 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 
 import br.cascuda.forum.dao.LoginDao;
-import br.cascuda.forum.model.Email;
+import br.cascuda.forum.model.EmailAcess;
 import br.cascuda.forum.model.UserServer;
-import br.cascuda.forum.redirect.Redirect;
 import br.cascuda.forum.util.Session;
 import br.cascuda.forum.util.Util;
 
 @Named
 @RequestScoped
 public class LogInController{
-	private Email access = new Email();
+	private EmailAcess access = new EmailAcess();
 	
 	private Boolean validation() {
 		getAccess().setPassword(Util.encrypt(getAccess().getPassword()));//CRIPYTOGRAFA SENHA INFOMADA PARA VERIFICAÇÃO
@@ -42,11 +41,11 @@ public class LogInController{
 		}
 	}
 	
-	public Email getAccess() {
+	public EmailAcess getAccess() {
 		return access;
 	}
 
-	public void setAccess(Email access) {
+	public void setAccess(EmailAcess access) {
 		this.access = access;
 	}
 }

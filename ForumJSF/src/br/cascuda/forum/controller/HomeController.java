@@ -24,14 +24,12 @@ public class HomeController {
 
 	public HomeController() {
 		super();
-		
 		connectUser = (UserServer) Session.getInstance().getAttribute("connect");
 		if (connectUser == null) {
 			connected = false;
 		} else {
 			connected = true;
 		}
-		
 		ordenarLista();
 	}
 
@@ -64,6 +62,7 @@ public class HomeController {
 		if (connected) {
 			comando.publicar(getTextoPublicar(), getConnectUser().getId());
 			setPublicacoes(comando.registry());
+			setTextoPublicar(null);
 			ordenarLista();
 		} else {
 			Redirect.signUp();

@@ -15,7 +15,7 @@ public class UserServer{
 	
 	@NotEmpty(message="Insira seu apelido")
 	private String nick;
-	private Email email = new Email();
+	private EmailAcess email = new EmailAcess();
 	private Phone phone = new Phone();
 	private TypeUser typeUser = TypeUser.ROOT;
 	private Boolean isConnected = false;
@@ -47,10 +47,10 @@ public class UserServer{
 	public void setNick(String nick) {
 		this.nick = nick;
 	}
-	public Email getEmail() {
+	public EmailAcess getEmail() {
 		return email;
 	}
-	public void setEmail(Email email) {
+	public void setEmail(EmailAcess email) {
 		this.email = email;
 	}
 	public Phone getPhone() {

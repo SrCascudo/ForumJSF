@@ -13,7 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import br.cascuda.forum.model.Publicacao;
 import br.cascuda.forum.model.UserServer;
+import br.cascuda.forum.util.Session;
 
 @WebFilter(filterName = "SecurytyFilter", urlPatterns = "/faces/pages/*")
 public class SecurityFilter implements Filter {
@@ -26,7 +28,7 @@ public class SecurityFilter implements Filter {
 		HttpServletRequest servletRequest = (HttpServletRequest) request;
 		String endereco = servletRequest.getRequestURI();
 		System.out.println(endereco);// IMPRIME ENDEROÇO DA PAGINA
-
+		
 		HttpSession session = servletRequest.getSession(false);
 		UserServer usuario = null;
 
