@@ -1,2 +1,2 @@
 # ForumJSF
-Projeto avaliativo para disciplina de Tópicos em Web I - Desenvolvedores: John Helder C. Alves e Vinicius S. Bessa 
+Criado para fins estudantins... Seja bem vindo(a)! 
