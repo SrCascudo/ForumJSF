@@ -1,2 +1,2 @@
 # ForumJSF
-Criado para fins estudantins... Seja bem vindo(a)! 
+Seja bem vindo(a)! 
